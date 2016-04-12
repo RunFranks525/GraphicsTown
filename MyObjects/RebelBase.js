@@ -95,6 +95,8 @@ var RebelBase = undefined;
         // we make a model matrix to place the RebelBase in the world
         var modelM = twgl.m4.scaling([this.size, this.size, this.size]);
         twgl.m4.setTranslation(modelM, this.position, modelM);
+        //var normalMatrix = [1, 1, 0, 0, 1, 1, 1, 0, 1];
+        var normalMatrix = twgl.m4.inverse(twgl.m4.transpose(modelM));
         // the drawing code is straightforward - since twgl deals with the GL stuff for us
         var gl = drawingState.gl;
         gl.useProgram(shaderProgram.program);
@@ -106,7 +108,7 @@ var RebelBase = undefined;
                 lightdir: drawingState.sunDirection,
                 cubecolor: this.color,
                 model: modelM,
-
+                normalMatrix : normalMatrix
             });
         twgl.drawBufferInfo(gl, gl.TRIANGLES, buffers);
     };
@@ -116,5 +118,5 @@ var RebelBase = undefined;
 
 })();
 
-grobjects.push(new RebelBase("rebelBase", [0,1,-4], 2))
+grobjects.push(new RebelBase("rebelBase", [0,1,-4], 2, [0.92, 0.64,0.51]))
 

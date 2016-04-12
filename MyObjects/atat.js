@@ -26,7 +26,7 @@ var AtAt = undefined;
                 vpos: {
                     numComponents: 3,
                     data: [
-
+                        //body
                         //backBottom Triangle
                         -1.0, -0.5, -0.5,
                         1.0, -0.5, -0.5,
@@ -59,20 +59,21 @@ var AtAt = undefined;
                         1.0, 0.5, 0.5,
                         -1.0, 0.5, 0.5,      // y = 1
 
-                        -0.5, -0.5, -0.5,
-                        -0.5, 0.5, -0.5,
-                        -0.5, 0.5, 0.5,
-                        -0.5, -0.5, -0.5,
+                        -1.0, -0.5, -0.5,
+                        -1.0, 0.5, -0.5,
+                        -1.0, 0.5, 0.5,
+                        -1.0, -0.5, -0.5,
 
-                        -0.5, 0.5, 0.5,
-                        -0.5, -0.5, 0.5,    // x = 0
-                         0.5, -0.5, -0.5,
-                         0.5, 0.5, -0.5,
+                        -1.0, 0.5, 0.5,
+                        -1.0, -0.5, 0.5,    // x = 0
+                         1.0, -0.5, -0.5,
+                         1.0, 0.5, -0.5,
 
-                         0.5, 0.5, 0.5,
-                         0.5, -0.5, -0.5,
-                         0.5, 0.5, 0.5,
-                         0.5, -0.5, 0.5     // x = 1
+                         1.0, 0.5, 0.5,
+                         1.0, -0.5, -0.5,
+                         1.0, 0.5, 0.5,
+                         1.0, -0.5, 0.5,     // x = 1
+
                     ]
                 },
                 vnormal: {
@@ -86,6 +87,7 @@ var AtAt = undefined;
                         1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0,
                     ]
                 }
+
             };
             buffers = twgl.createBufferInfoFromArrays(drawingState.gl, arrays);
         }
@@ -94,8 +96,10 @@ var AtAt = undefined;
     AtAt.prototype.draw = function (drawingState) {
         // we make a model matrix to place the RebelBase in the world
         var modelM = twgl.m4.scaling([this.size, this.size, this.size]);
+        modelM = twgl.m4.rotationY(Math.PI / 2);
         twgl.m4.setTranslation(modelM, this.position, modelM);
-        modelM = twgl.m4.rotationY(Math.PI/2);
+       // var normalMatrix = [1, 1, 0, 0, 1, 1, 1, 0, 1];
+        var normalMatrix = twgl.m4.inverse(twgl.m4.transpose(modelM));
         // the drawing code is straightforward - since twgl deals with the GL stuff for us
         var gl = drawingState.gl;
         gl.useProgram(shaderProgram.program);
@@ -107,6 +111,7 @@ var AtAt = undefined;
                 lightdir: drawingState.sunDirection,
                 cubecolor: this.color,
                 model: modelM,
+                normalMatrix: normalMatrix
 
             });
         twgl.drawBufferInfo(gl, gl.TRIANGLES, buffers);
@@ -117,5 +122,6 @@ var AtAt = undefined;
 
 })();
 
-grobjects.push(new AtAt("rebelBase", [0, 4, 2], 1))
+grobjects.push(new AtAt("rebelBase", [-2, 2, 2], 1));
+grobjects.push(new AtAt("AT-AT2", [2,2,2], 1))
 

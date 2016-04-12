@@ -1,0 +1,360 @@
+newmtl Dark_smoked_gla0
+Ka 0 0 0
+Ns 34.4669
+Ks 1 1 1
+Kd 0.498039 0.498039 0.498039
+map_Kd Dark_smoked_gla0.png
+newmtl Flat_gray0
+Ka 0 0 0
+Ns 8.16617
+Ks 1 1 1
+Kd 0.607843 0.607843 0.607843
+map_Kd Flat_gray0_1.png
+newmtl BlackInodizedAl0
+Ka 0 0 0
+Ns 3.47873
+Ks 1 1 1
+Kd 0.198039 0.198039 0.198039
+map_Kd BlackInodizedAl0_2.png
+newmtl Flat_gray1
+Ka 0 0 0
+Ns 8.16617
+Ks 1 1 1
+Kd 0.607843 0.607843 0.607843
+map_Kd Flat_gray1_3.png
+newmtl Flat_gray2
+Ka 0 0 0
+Ns 8.16617
+Ks 1 1 1
+Kd 0.501961 0.501961 0.501961
+map_Kd Flat_gray2_4.png
+newmtl Red_metal0
+Ka 0 0 0
+Ns 46.5255
+Ks 1 1 1
+Kd 1 0.152941 0.133333
+map_Kd Red_metal0_5.png
+newmtl Metallic_Varnis0
+Ka 0 0 0
+Ns 3.32012
+Ks 0.733333 0.92549 1
+Kd 0.823529 0 0.0352941
+map_Kd Metallic_Varnis0_6.png
+newmtl Flat_gray3
+Ka 0 0 0
+Ns 8.16617
+Ks 1 1 1
+Kd 0.607843 0.607843 0.607843
+map_Kd Flat_gray3_7.png
+newmtl Flat_gray4
+Ka 0 0 0
+Ns 8.16617
+Ks 1 1 1
+Kd 0.607843 0.607843 0.607843
+map_Kd Flat_gray4_8.png
+newmtl Flat_gray5
+Ka 0 0 0
+Ns 8.16617
+Ks 1 1 1
+Kd 0.607843 0.607843 0.607843
+map_Kd Flat_gray5_9.png
+newmtl BlackInodizedAl1
+Ka 0 0 0
+Ns 3.47873
+Ks 1 1 1
+Kd 0.198039 0.198039 0.198039
+map_Kd BlackInodizedAl1_10.png
+newmtl Flat_gray6
+Ka 0 0 0
+Ns 8.16617
+Ks 1 1 1
+Kd 0.607843 0.607843 0.607843
+map_Kd Flat_gray6_11.png
+newmtl Flat_gray7
+Ka 0 0 0
+Ns 8.16617
+Ks 1 1 1
+Kd 0.501961 0.501961 0.501961
+map_Kd Flat_gray7_12.png
+newmtl Flat_gray8
+Ka 0 0 0
+Ns 8.16617
+Ks 1 1 1
+Kd 0.133333 0.133333 0.133333
+map_Kd Flat_gray8_13.png
+newmtl Pewter
+Ka 0 0 0
+Ns 20.0855
+Ks 0.835294 0.921569 1
+Kd 0.603922 0.603922 0.603922
+map_Kd Pewter_14.png
+newmtl Flat_gray9
+Ka 0 0 0
+Ns 8.16617
+Ks 1 1 1
+Kd 0.607843 0.607843 0.607843
+map_Kd Flat_gray9_15.png
+newmtl Green_plastic0
+Ka 0 0 0
+Ns 13.1971
+Ks 1 1 1
+Kd 1 0.835294 0.176471
+map_Kd Green_plastic0_16.png
+newmtl Flat_gray10
+Ka 0 0 0
+Ns 8.16617
+Ks 1 1 1
+Kd 0.133333 0.133333 0.133333
+map_Kd Flat_gray10_17.png
+newmtl Metallic_Varnis1
+Ka 0 0 0
+Ns 3.32012
+Ks 0.733333 0.92549 1
+Kd 0.823529 0 0.0352941
+map_Kd Metallic_Varnis1_18.png
+newmtl Red_metal1
+Ka 0 0 0
+Ns 46.5255
+Ks 1 1 1
+Kd 1 0.152941 0.133333
+map_Kd Red_metal1_19.png
+newmtl DARK_GRAY_MATTE0
+Ka 0 0 0
+Ns 1
+Ks 0.105882 0.105882 0.105882
+Kd 0.105882 0.105882 0.105882
+map_Kd DARK_GRAY_MATTE0_20.png
+newmtl Flat_gray11
+Ka 0 0 0
+Ns 8.16617
+Ks 1 1 1
+Kd 0.607843 0.607843 0.607843
+map_Kd Flat_gray11_21.png
+newmtl Flat_gray12
+Ka 0 0 0
+Ns 8.16617
+Ks 1 1 1
+Kd 0.607843 0.607843 0.607843
+map_Kd Flat_gray12_22.png
+newmtl Flat_gray13
+Ka 0 0 0
+Ns 8.16617
+Ks 1 1 1
+Kd 0.133333 0.133333 0.133333
+map_Kd Flat_gray13_23.png
+newmtl BlackInodizedAl2
+Ka 0 0 0
+Ns 3.47873
+Ks 1 1 1
+Kd 0.198039 0.198039 0.198039
+map_Kd BlackInodizedAl2_24.png
+newmtl Flat_gray14
+Ka 0 0 0
+Ns 8.16617
+Ks 1 1 1
+Kd 0.133333 0.133333 0.133333
+map_Kd Flat_gray14_25.png
+newmtl Aluminium
+Ka 0 0 0
+Ns 1.82212
+Ks 1 1 1
+Kd 0.647059 0.647059 0.647059
+map_Kd Aluminium_26.png
+newmtl Red_metal2
+Ka 0 0 0
+Ns 46.5255
+Ks 1 1 1
+Kd 1 0.152941 0.133333
+map_Kd Red_metal2_27.png
+newmtl White_porcelaine
+Ka 0 0 0
+Ns 164.022
+Ks 1 1 1
+Kd 0.862745 0.866667 0.905882
+map_Kd White_porcelaine_28.png
+newmtl DARK_GRAY_MATTE1
+Ka 0 0 0
+Ns 1
+Ks 0.105882 0.105882 0.105882
+Kd 0.105882 0.105882 0.105882
+map_Kd DARK_GRAY_MATTE1_29.png
+newmtl DARK_GRAY_MATTE2
+Ka 0 0 0
+Ns 1
+Ks 0.14902 0.14902 0.14902
+Kd 0.14902 0.14902 0.14902
+map_Kd DARK_GRAY_MATTE2_30.png
+newmtl BROWN_SEAT
+Ka 0 0 0
+Ns 2.6117
+Ks 0.517647 0.301961 0.219608
+Kd 0.301961 0.164706 0.0941176
+map_Kd BROWN_SEAT_31.png
+newmtl Green_cathedral_
+Ka 0 0 0
+Ns 34.4669
+Ks 1 1 1
+Kd 0.105882 0.854902 0.462745
+map_Kd Green_cathedral__32.png
+newmtl Green_plastic1
+Ka 0 0 0
+Ns 13.1971
+Ks 1 1 1
+Kd 1 0.835294 0.176471
+map_Kd Green_plastic1_33.png
+newmtl BlackInodizedAl3
+Ka 0 0 0
+Ns 3.47873
+Ks 1 1 1
+Kd 0.198039 0.198039 0.198039
+map_Kd BlackInodizedAl3_34.png
+newmtl Flat_gray15
+Ka 0 0 0
+Ns 8.16617
+Ks 1 1 1
+Kd 0.607843 0.607843 0.607843
+map_Kd Flat_gray15_35.png
+newmtl Red_metal3
+Ka 0 0 0
+Ns 46.5255
+Ks 1 1 1
+Kd 1 0.152941 0.133333
+map_Kd Red_metal3_36.png
+newmtl Flat_gray16
+Ka 0 0 0
+Ns 8.16617
+Ks 1 1 1
+Kd 0.133333 0.133333 0.133333
+map_Kd Flat_gray16_37.png
+newmtl Dark_smoked_gla1
+Ka 0 0 0
+Ns 34.4669
+Ks 1 1 1
+Kd 0.498039 0.498039 0.498039
+map_Kd Dark_smoked_gla1_38.png
+newmtl Flat_gray17
+Ka 0 0 0
+Ns 8.16617
+Ks 1 1 1
+Kd 0.607843 0.607843 0.607843
+map_Kd Flat_gray17_39.png
+newmtl Flat_gray18
+Ka 0 0 0
+Ns 8.16617
+Ks 1 1 1
+Kd 0.607843 0.607843 0.607843
+map_Kd Flat_gray18_40.png
+newmtl Red_metal4
+Ka 0 0 0
+Ns 46.5255
+Ks 1 1 1
+Kd 1 0.152941 0.133333
+map_Kd Red_metal4_41.png
+newmtl Flat_gray19
+Ka 0 0 0
+Ns 8.16617
+Ks 1 1 1
+Kd 0.607843 0.607843 0.607843
+map_Kd Flat_gray19_42.png
+newmtl Flat_gray20
+Ka 0 0 0
+Ns 8.16617
+Ks 1 1 1
+Kd 0.133333 0.133333 0.133333
+map_Kd Flat_gray20_43.png
+newmtl Metallic_Varnis2
+Ka 0 0 0
+Ns 3.32012
+Ks 0.733333 0.92549 1
+Kd 0.823529 0 0.0352941
+map_Kd Metallic_Varnis2_44.png
+newmtl Red_metal5
+Ka 0 0 0
+Ns 46.5255
+Ks 1 1 1
+Kd 1 0.152941 0.133333
+map_Kd Red_metal5_45.png
+newmtl DARK_GRAY_MATTE3
+Ka 0 0 0
+Ns 1
+Ks 0.14902 0.14902 0.14902
+Kd 0.14902 0.14902 0.14902
+map_Kd DARK_GRAY_MATTE3_46.png
+newmtl Flat_gray21
+Ka 0 0 0
+Ns 8.16617
+Ks 1 1 1
+Kd 0.607843 0.607843 0.607843
+map_Kd Flat_gray21_47.png
+newmtl Flat_gray22
+Ka 0 0 0
+Ns 8.16617
+Ks 1 1 1
+Kd 0.133333 0.133333 0.133333
+map_Kd Flat_gray22_48.png
+newmtl Metallic_Varnis3
+Ka 0 0 0
+Ns 3.32012
+Ks 0.733333 0.92549 1
+Kd 0.823529 0 0.0352941
+map_Kd Metallic_Varnis3_49.png
+newmtl Red_metal6
+Ka 0 0 0
+Ns 46.5255
+Ks 1 1 1
+Kd 1 0.152941 0.133333
+map_Kd Red_metal6_50.png
+newmtl DARK_GRAY_MATTE4
+Ka 0 0 0
+Ns 1
+Ks 0.14902 0.14902 0.14902
+Kd 0.14902 0.14902 0.14902
+map_Kd DARK_GRAY_MATTE4_51.png
+newmtl Mercury0
+Ka 0 0 0
+Ns 52.4573
+Ks 1 1 1
+Kd 0.745098 0.74902 0.752941
+map_Kd Mercury0_52.png
+newmtl Flat_gray23
+Ka 0 0 0
+Ns 8.16617
+Ks 1 1 1
+Kd 0.607843 0.607843 0.607843
+map_Kd Flat_gray23_53.png
+newmtl Green_plastic2
+Ka 0 0 0
+Ns 13.1971
+Ks 1 1 1
+Kd 1 0.835294 0.176471
+map_Kd Green_plastic2_54.png
+newmtl Flat_gray24
+Ka 0 0 0
+Ns 8.16617
+Ks 1 1 1
+Kd 0.607843 0.607843 0.607843
+map_Kd Flat_gray24_55.png
+newmtl Mercury1
+Ka 0 0 0
+Ns 52.4573
+Ks 1 1 1
+Kd 0.745098 0.74902 0.752941
+map_Kd Mercury1_56.png
+newmtl Flat_gray25
+Ka 0 0 0
+Ns 8.16617
+Ks 1 1 1
+Kd 0.607843 0.607843 0.607843
+map_Kd Flat_gray25_57.png
+newmtl Green_plastic3
+Ka 0 0 0
+Ns 13.1971
+Ks 1 1 1
+Kd 1 0.835294 0.176471
+map_Kd Green_plastic3_58.png
+newmtl Flat_gray26
+Ka 0 0 0
+Ns 8.16617
+Ks 1 1 1
+Kd 0.607843 0.607843 0.607843
+map_Kd Flat_gray26_59.png
