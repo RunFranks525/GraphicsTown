@@ -58,11 +58,24 @@ an example of a more complex/richer behavior.
         }
         if (!copterBodyBuffers) {
             var arrays = {
-                vpos : { numComponents: 3, data: [
-                    .5, 0, 0,  0,0,.5,  -.5,0,0,  0,0, -.5, 0,.5,0,    0, -.5,0,
-                    q,0,-q,  0,q,-q,  -q,0,-q,  0,-q,-q,  0,0,-1
+                vpos: {
+                    numComponents: 3,
+                    data: [
+                    .5, 0, 0,
+                    0, 0, .5,
+                    -.5, 0, 0,
+                    0, 0, -.5,
+                    0, .5, 0,
+                    0, -.5, 0,
+                    q, 0, -q,
+                    0, q, -q,
+                    -q, 0, -q,
+                    0, -q, -q,
+                    0, 0, -1
                 ] },
-                vnormal : {numComponents:3, data: [
+                vnormal: {
+                    numComponents: 3,
+                    data: [
                     1,0,0,  0,0,1,  -1,0,0,  0,0,-1, 0,1,0,  0,-1,0,
                     1,0,0,  0,1,0,  -1,0,0,  0,-1,0,  0,0,-1
                 ]},
@@ -101,8 +114,12 @@ an example of a more complex/richer behavior.
         var gl = drawingState.gl;
         gl.useProgram(shaderProgram.program);
         twgl.setUniforms(shaderProgram,{
-            view:drawingState.view, proj:drawingState.proj, lightdir:drawingState.sunDirection,
-            cubecolor:this.color, model: modelM });
+            view: drawingState.view,
+            proj: drawingState.proj,
+            lightdir: drawingState.sunDirection,
+            cubecolor: this.color,
+            model: modelM
+        });
         twgl.setBuffersAndAttributes(gl,shaderProgram,copterBodyBuffers);
         twgl.drawBufferInfo(gl, gl.TRIANGLES, copterBodyBuffers);
         twgl.setBuffersAndAttributes(gl,shaderProgram,copterRotorBuffers);
