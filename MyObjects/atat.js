@@ -284,8 +284,8 @@ var AtAt = undefined;
         var modelM = twgl.m4.scaling([this.size, this.size, this.size]);
         modelM = twgl.m4.rotationY(Math.PI / 2);
         twgl.m4.setTranslation(modelM, this.position, modelM);
-        //var normalMatrix = [1, 1, 0, 0, 1, 1, 1, 0, 1];
-        var normalMatrix = twgl.m4.inverse(twgl.m4.transpose(modelM));
+        var normalMatrix = [1, 1, 0, 0, 1, 1, 1, 0, 1];
+        //var normalMatrix = twgl.m4.transpose(twgl.m4.inverse(modelM));
         // the drawing code is straightforward - since twgl deals with the GL stuff for us
         var gl = drawingState.gl;
         gl.useProgram(shaderProgram.program);

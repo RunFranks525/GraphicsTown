@@ -133,18 +133,7 @@ window.onload = function() {
         var curTime = Date.now();
         if (checkboxes.Run.checked) {
             realtime += (curTime - lastTime);
-            //console.log(realtime);
-            //if (realtime % 10 === 0) {
-            //    sliders.TimeOfDay.value++;
-            //    //console.log(sliders.TimeOfDay.value);
-            //    if (sliders.TimeOfDay.value == 24)
-            //    {
-            //        console.log(sliders.TimeOfDay.value);
-            //        sliders.TimeOfDay.value = 0;
-            //    }
-               
-               
-            //}
+
         }
         lastTime = curTime;
 

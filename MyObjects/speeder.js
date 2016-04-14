@@ -170,7 +170,7 @@ var speeder = undefined;
         //modelM = twgl.m4.multiply(modelM, twgl.m4.axisRotation([1,0,0], this.orientation));
         twgl.m4.setTranslation(modelM, this.position, modelM);
         //var normalMatrix = [1, 1, 0, 0, 1, 1, 1, 0, 1];
-        var normalMatrix = twgl.m4.inverse(twgl.m4.transpose(modelM));
+        var normalMatrix = modelM;
         // the drawing code is straightforward - since twgl deals with the GL stuff for us
         var gl = drawingState.gl;
         gl.useProgram(shaderProgram.program);

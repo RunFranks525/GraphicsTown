@@ -8,6 +8,8 @@
     <title>GraphicsTown JS 2015!</title>
 </head>
 <body>
+    <h1>The Battle of Hoth</h1>
+    <h3>Star Wars Episode 5: The Empire Strikes Back</h3>
 <!-- load this stuff first -->
 <script src="Libraries/twgl-full.js"></script>
 <script src="Libraries/panel.js"></script>
@@ -66,9 +68,9 @@
 
     void main(void) {
         gl_Position = proj * view * model * vec4(vpos, 1.0);
-        fNormal = normalize(vnormal * normalMatrix);
+        fNormal = normalize(normalMatrix * vnormal);
         vec4 normal = normalize(model * vec4(vnormal,0.0));
-        fPos = vpos.xyz;       
+        fPos =(view* model* vec4(vpos.xyz,1.0)).xyz;       
         float diffuse = 0.5 + .5*dot(normal, vec4(lightdir,0.0));
         outLightDir = lightdir;
         outColor = cubecolor * diffuse;
@@ -84,7 +86,7 @@
     varying vec3 fPos;
     varying vec3 fNormal;
     const float specular_coeff  = 1.0;
-    const float specular_exp    = 1.0;
+    const float specular_exp    = 12.0;
     const vec3  light_color     = vec3(1.0, 1.0, 1.0);
 
     void main(void) {
