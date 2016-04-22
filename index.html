@@ -19,10 +19,10 @@
 
 <!-- This is where we load the objects for the world -->
 <!--<script src="ExampleObjects/simplest.js"></script>
-<script src="ExampleObjects/texturedplane.js"></script>
-<script src="ExampleObjects/cube.js"></script>-->
-<script src="MyObjects/SnowSpeeder.js"></script>
-<script src="ModelLoader.js"></script>
+<script src="ExampleObjects/texturedplane.js"></script>-->
+<script src="ExampleObjects/cube.js"></script>
+<!--<script src="MyObjects/SnowSpeeder.js"></script>
+<script src="ModelLoader.js"></script>-->
 <script src="MyObjects/speeder.js"></script>
 <script src="MyObjects/RebelBase.js"></script>
 <script src="MyObjects/atat.js"></script>
@@ -64,7 +64,7 @@
     uniform vec3 cubecolor;
     varying vec3 outLightDir;
     varying vec3 fPos;
-
+    varying vec2 fTexCoord;
 
     void main(void) {
         gl_Position = proj * view * model * vec4(vpos, 1.0);
@@ -88,26 +88,27 @@
     const float specular_coeff  = 1.0;
     const float specular_exp    = 12.0;
     const vec3  light_color     = vec3(1.0, 1.0, 1.0);
-
+    varying vec2 fTexCoord;
+    uniform sampler2D texSampler;
     void main(void) {
         vec3 l = normalize(outLightDir);
         vec3 n = normalize(fNormal);
         vec3 e = normalize(-fPos);
         vec3 h = normalize (e+l);
         
+        vec4 texColor = texture2D(texSampler, fTexCoord);
         vec3 specular_color = specular_coeff * pow(max(0.0,dot(n,h)),specular_exp) * light_color;
         gl_FragColor = vec4(outColor + specular_color, 1.0);
     }
 </script>
 
-<!-- Special Ground Plane Shader - makes a boring
-  -- checkerboard
-  -->
 <script id="ground-vs" type="not-js">
     precision highp float;
 
     attribute vec3 vpos;
+    attribute vec2 vtex;
     varying vec3 outPos;
+    varying vec2 fTexCoord;
 
     uniform mat4 view;
     uniform mat4 proj;
@@ -115,22 +116,47 @@
     void main(void) {
         gl_Position = proj * view * vec4(vpos, 1.0);
         outPos = vpos;
+        fTexCoord = vtex;
     }
 </script>
-<script id="ground-fs" type="notjs">
+<script id="ground-fs" type="not-js">
     // note this is used for more than just the cube
     precision highp float;
     varying vec3 outPos;
+    varying vec2 fTexCoord;
+    uniform sampler2D texSampler;
     void main(void) {
-        // float xs = step(1.0,mod(outPos.x,2.0));
-        //float zs = step(1.0,mod(outPos.z,2.0));
-        //float ss = (xs>.5) ? zs : 1.0-zs;
-        gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
-        //mix(vec4(0.5,0.5,0.5,1),
-        //                   vec4(0.3,0.5,0.4,1),
-        //                  ss
-        //                 );
+        vec4 texColor = texture2D(texSampler, fTexCoord);
+        gl_FragColor = vec4(texColor);
+    }
+</script>
 
+<script id="cubeTest-vs" type="not-js">
+    precision highp float;
+
+    attribute vec3 vpos;
+    attribute vec2 vTex;
+    varying vec3 outPos;
+    varying vec2 fTexCoord;
+
+    uniform mat4 view;
+    uniform mat4 proj;
+
+    void main(void) {
+        gl_Position = proj * view * vec4(vpos, 1.0);
+        outPos = vpos;
+        fTexCoord = vTex;
+    }
+</script>
+<script id="cubeTest-fs" type="not-js">
+    // note this is used for more than just the cube
+    precision highp float;
+    varying vec3 outPos;
+    varying vec2 fTexCoord;
+    uniform sampler2D texSampler;
+    void main(void) {
+        vec4 texColor = texture2D(texSampler, fTexCoord);
+        gl_FragColor = vec4(texColor);
     }
 </script>
 

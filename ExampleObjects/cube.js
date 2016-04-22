@@ -21,7 +21,6 @@ var grobjects = grobjects || [];
 
 // allow the two constructors to be "leaked" out
 var Cube = undefined;
-var SpinningCube = undefined;
 
 // this is a function that runs at loading time (note the parenthesis at the end)
 (function () {
@@ -44,34 +43,130 @@ var SpinningCube = undefined;
         var gl = drawingState.gl;
         // create the shaders once - for all cubes
         if (!shaderProgram) {
-            shaderProgram = twgl.createProgramInfo(gl, ["cube-vs", "cube-fs"]);
+            shaderProgram = twgl.createProgramInfo(gl, ["cubeTest-vs", "cubeTest-fs"]);
         }
         if (!buffers) {
             var arrays = {
                 vpos: {
                     numComponents: 3,
                     data: [
-                        -.5, -.5, -.5, .5, -.5, -.5, .5, .5, -.5, -.5, -.5, -.5, .5, .5, -.5, -.5, .5, -.5,    // z = 0
-                        -.5, -.5, .5, .5, -.5, .5, .5, .5, .5, -.5, -.5, .5, .5, .5, .5, -.5, .5, .5,    // z = 1
-                        -.5, -.5, -.5, .5, -.5, -.5, .5, -.5, .5, -.5, -.5, -.5, .5, -.5, .5, -.5, -.5, .5,    // y = 0
-                        -.5, .5, -.5, .5, .5, -.5, .5, .5, .5, -.5, .5, -.5, .5, .5, .5, -.5, .5, .5,    // y = 1
-                        -.5, -.5, -.5, -.5, .5, -.5, -.5, .5, .5, -.5, -.5, -.5, -.5, .5, .5, -.5, -.5, .5,    // x = 0
-                         .5, -.5, -.5, .5, .5, -.5, .5, .5, .5, .5, -.5, -.5, .5, .5, .5, .5, -.5, .5     // x = 1
+                        -.5, -.5, -.5,
+                        .5, -.5, -.5,
+                        .5, .5, -.5,
+
+                        -.5, -.5, -.5,
+                        .5, .5, -.5,
+                        -.5, .5, -.5,
+
+                        -.5, -.5, .5,
+                        .5, -.5, .5,
+                        .5, .5, .5,
+
+                        -.5, -.5, .5,
+                        .5, .5, .5,
+                        -.5, .5, .5,
+
+                        // z = 1
+                        -.5, -.5, -.5,
+                        .5, -.5, -.5,
+                        .5, -.5, .5,
+
+                        -.5, -.5, -.5,
+                        .5, -.5, .5,
+                        -.5, -.5, .5,
+
+                        // y = 0
+                        -.5, .5, -.5,
+                        .5, .5, -.5,
+                        .5, .5, .5,
+
+                        -.5, .5, -.5,
+                        .5, .5, .5,
+                        -.5, .5, .5,
+
+                        // y = 1
+                        -.5, -.5, -.5,
+                        -.5, .5, -.5,
+                        -.5, .5, .5,
+
+                        -.5, -.5, -.5,
+                        -.5, .5, .5,
+                        -.5, -.5, .5,
+
+                        // x = 0
+                         .5, -.5, -.5,
+                         .5, .5, -.5,
+                         .5, .5, .5,
+
+                         .5, -.5, -.5,
+                         .5, .5, .5,
+                         .5, -.5, .5     // x = 1
                     ]
                 },
-                vnormal: {
-                    numComponents: 3,
+                vTex: {
+                    numComponents: 2,
                     data: [
-                        0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1,
-                        0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1,
-                        0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0,
-                        0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0,
-                        -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0,
-                        1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0,
+                        0, 0,
+                        1, 0,
+                        1, 1,
+
+                        0, 1,
+                        1, 0,
+                        1, 1,
+
+                        0, 1,
+                        0, 0,
+                        0, 1,
+
+                        0, 0,
+                        1, 0,
+                        1, 1,
+
+                        0, 0,
+                        1, 0,
+                        1, 1,
+
+                        0, 1,
+                        1, 1,
+                        0, 1,
+
+                        0, 0,
+                        1, 0,
+                        1, 1,
+
+                        0, 1,
+                        0, 0,
+                        1, 0,
+
+                        1, 1,
+                        0, 1,
+                        0, 0,
+
+                        0, 0,
+                        1, 0,
+                        1, 1,
+
+                        0, 1,
+                        1, 0,
+                        0, 0,
+
+                        1, 1,
+                        0, 1,
+                        1,0
+
                     ]
                 }
+
             };
             buffers = twgl.createBufferInfoFromArrays(drawingState.gl, arrays);
+            window.texture = gl.createTexture();
+            gl.bindTexture(gl.TEXTURE_2D, texture);
+            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+            window.image = new Image();
+            image.onload = LoadTexture;
+            image.crossOrigin = "anonymous";
+            image.src = "https://lh3.googleusercontent.com/-xX-m9F-ax7c/ViSDMRbutoI/AAAAAAAABWs/A3L33oEWBCw/s512-Ic42/spirit.jpg";
+
         }
 
     };
@@ -80,9 +175,13 @@ var SpinningCube = undefined;
         var modelM = twgl.m4.scaling([this.size, this.size, this.size]);
         twgl.m4.setTranslation(modelM, this.position, modelM);
         // the drawing code is straightforward - since twgl deals with the GL stuff for us
-        var gl = drawingState.gl;
+        window.gl = drawingState.gl;
         gl.useProgram(shaderProgram.program);
         twgl.setBuffersAndAttributes(gl, shaderProgram, buffers);
+
+        
+
+
         twgl.setUniforms(shaderProgram,
             {
                 view: drawingState.view,
@@ -90,46 +189,27 @@ var SpinningCube = undefined;
                 lightdir: drawingState.sunDirection,
                 cubecolor: this.color,
                 model: modelM,
-                
+
             });
+
+        shaderProgram.program.texSampler = gl.getUniformLocation(shaderProgram.program, "texSampler");
+        gl.uniform1i(shaderProgram.program.texSampler, 0);
+
         twgl.drawBufferInfo(gl, gl.TRIANGLES, buffers);
     };
+
     Cube.prototype.center = function (drawingState) {
         return this.position;
     }
 
 
-    ////////
-    // constructor for Spinning Cubes
-    SpinningCube = function SpinningCube(name, position, size, color, axis) {
-        Cube.apply(this, arguments);
-        this.axis = axis || 'X';
-    }
-    SpinningCube.prototype = Object.create(Cube.prototype);
-    SpinningCube.prototype.draw = function (drawingState) {
-        // we make a model matrix to place the cube in the world
-        var modelM = twgl.m4.scaling([this.size, this.size, this.size]);
-        var theta = Number(drawingState.realtime) / 200.0;
-        if (this.axis == 'X') {
-            twgl.m4.rotateX(modelM, theta, modelM);
-        } else if (this.axis == 'Z') {
-            twgl.m4.rotateZ(modelM, theta, modelM);
-        } else {
-            twgl.m4.rotateY(modelM, theta, modelM);
-        }
-        twgl.m4.setTranslation(modelM, this.position, modelM);
-        // the drawing coce is straightforward - since twgl deals with the GL stuff for us
-        var gl = drawingState.gl;
-        gl.useProgram(shaderProgram.program);
-        twgl.setBuffersAndAttributes(gl, shaderProgram, buffers);
-        twgl.setUniforms(shaderProgram, {
-            view: drawingState.view, proj: drawingState.proj, lightdir: drawingState.sunDirection,
-            cubecolor: this.color, model: modelM
-        });
-        twgl.drawBufferInfo(gl, gl.TRIANGLES, buffers);
-    };
-    SpinningCube.prototype.center = function (drawingState) {
-        return this.position;
+    function LoadTexture() {
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+
+        // Option 1 : Use mipmap, select interpolation mode
+        gl.generateMipmap(gl.TEXTURE_2D);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
     }
 
 
@@ -140,7 +220,7 @@ var SpinningCube = undefined;
 // but I am putting it here, so that if you want to get
 // rid of cubes, just don't load this file.
 //Cube(name, position, size, color)
-//grobjects.push(new Cube("cube1", [0, 0, 0], 3, [1,0,0]));
+grobjects.push(new Cube("cube1", [0, 0, 0], 5, [1, 0, 0]));
 //grobjects.push(new Cube("cube2",[ 2,0.5,   0],1, [1,1,0]));
 //grobjects.push(new Cube("cube3",[ 0, 0.5, -2],1 , [0,1,1]));
 //grobjects.push(new Cube("cube4",[ 0,0.5,   2],1));

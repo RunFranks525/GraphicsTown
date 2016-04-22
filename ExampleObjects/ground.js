@@ -13,8 +13,8 @@
  **/
 
 // this defines the global list of objects
-    // if it exists already, this is a redundant definition
-    // if it isn't create a new array
+// if it exists already, this is a redundant definition
+// if it isn't create a new array
 var grobjects = grobjects || [];
 
 // a global variable to set the ground plane size, so we can easily adjust it
@@ -25,18 +25,29 @@ var groundPlaneSize = groundPlaneSize || 5;
 // now, I make a function that adds an object to that list
 // there's a funky thing here where I have to not only define the function, but also
 // run it - so it has to be put in parenthesis
-(function() {
+(function () {
     "use strict";
 
     // putting the arrays of object info here as well
     var vertexPos = [
         -groundPlaneSize, 0, -groundPlaneSize,
          groundPlaneSize, 0, -groundPlaneSize,
-         groundPlaneSize, 0,  groundPlaneSize,
+         groundPlaneSize, 0, groundPlaneSize,
         -groundPlaneSize, 0, -groundPlaneSize,
-         groundPlaneSize, 0,  groundPlaneSize,
-        -groundPlaneSize, 0,  groundPlaneSize
+         groundPlaneSize, 0, groundPlaneSize,
+        -groundPlaneSize, 0, groundPlaneSize
     ];
+
+    var texPos =
+           [
+               0, 0,
+               1, 0,
+               1, 1,
+               1, 1,
+               1, 0,
+               1, 1
+              
+           ];
 
     // since there will be one of these, just keep info in the closure
     var shaderProgram = undefined;
@@ -53,33 +64,62 @@ var groundPlaneSize = groundPlaneSize || 5;
         // first I will give this the required object stuff for it's interface
         // note that the init and draw functions can refer to the fields I define
         // below
-        name : "Ground Plane",
+        name: "Ground Plane",
         // the two workhorse functions - init and draw
         // init will be called when there is a GL context
         // this code gets really bulky since I am doing it all in place
-        init : function(drawingState) {
+        init: function (drawingState) {
             // an abbreviation...
             var gl = drawingState.gl;
             if (!shaderProgram) {
-                shaderProgram = twgl.createProgramInfo(gl,["ground-vs","ground-fs"]);
+                shaderProgram = twgl.createProgramInfo(gl, ["ground-vs", "ground-fs"]);
             }
-            var arrays = { vpos : {numComponents:3, data:vertexPos }};
-            buffers = twgl.createBufferInfoFromArrays(gl,arrays);
-       },
-        draw : function(drawingState) {
-            var gl = drawingState.gl;
+            var arrays = {
+                vpos: { numComponents: 3, data: vertexPos },
+                vtex: {
+                    numComponents: 2,
+                    data: texPos
+                }
+
+            };
+            buffers = twgl.createBufferInfoFromArrays(gl, arrays);
+            window.texture = gl.createTexture();
+            gl.bindTexture(gl.TEXTURE_2D, texture);
+            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+            window.image = new Image();
+            image.onload = LoadTexture;
+            image.crossOrigin = "anonymous";
+            image.src = "https://photos.google.com/search/_tra_/photo/AF1QipPsigOo-bOYQK9Cb25SnT_zHxpDFYi8hmAxYcIn";
+
+        },
+        draw: function (drawingState) {
+            window.gl = drawingState.gl;
             gl.useProgram(shaderProgram.program);
-            twgl.setBuffersAndAttributes(gl,shaderProgram,buffers);
-            twgl.setUniforms(shaderProgram,{
-                view:drawingState.view, proj:drawingState.proj
+            twgl.setBuffersAndAttributes(gl, shaderProgram, buffers);
+            twgl.setUniforms(shaderProgram, {
+                view: drawingState.view,
+                proj: drawingState.proj
             });
+            shaderProgram.program.texSampler = gl.getUniformLocation(shaderProgram.program, "texSampler");
+            gl.uniform1i(shaderProgram.program.texSampler, 0);
             twgl.drawBufferInfo(gl, gl.TRIANGLES, buffers);
         },
-        center : function(drawingState) {
-            return [0,0,0];
+        center: function (drawingState) {
+            return [0, 0, 0];
         }
 
+
+
     };
+
+    function LoadTexture() {
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+        // Option 1 : Use mipmap, select interpolation mode
+        gl.generateMipmap(gl.TEXTURE_2D);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+    }
+
 
     // now that we've defined the object, add it to the global objects list
     grobjects.push(ground);
