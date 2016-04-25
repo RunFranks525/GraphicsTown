@@ -201,5 +201,6 @@ var speeder = undefined;
 
 grobjects.push(new speeder("snowSpeeder", [1,1, 3], 0.5, [1.0, 1.0, 1.0]));
 
+//grobjects.push(new speeder("snowSpeeder", [2, 3, 3], 0.5, [1.0, 1.0, 1.0]));
 
 

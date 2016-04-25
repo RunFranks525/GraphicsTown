@@ -1,30 +1,8 @@
-/**
- * Created by gleicher on 10/9/2015.
- */
-
-/**
- this is even simpler than the simplest object - it's a ground plane underneath
- the objects (at Z=0) - just a big plane. all coloring handled in the vertex
- shader. no normals. it's just a checkerboard that is simple.
-
- no normals, but a funky shader
-
- however, I am going to do it with TWGL to keep the code size down
- **/
-
-// this defines the global list of objects
-// if it exists already, this is a redundant definition
-// if it isn't create a new array
 var grobjects = grobjects || [];
 
-// a global variable to set the ground plane size, so we can easily adjust it
-// in the html file (before things run
-// this is the +/- in the X and Z direction (so things will go from -5 to +5 by default)
 var groundPlaneSize = groundPlaneSize || 5;
 
-// now, I make a function that adds an object to that list
-// there's a funky thing here where I have to not only define the function, but also
-// run it - so it has to be put in parenthesis
+
 (function () {
     "use strict";
 
@@ -43,84 +21,66 @@ var groundPlaneSize = groundPlaneSize || 5;
                0, 0,
                1, 0,
                1, 1,
-               1, 1,
                1, 0,
-               1, 1
-              
+               0, 1, 
+               1, 1         
            ];
 
     // since there will be one of these, just keep info in the closure
     var shaderProgram = undefined;
     var buffers = undefined;
-
-    // define the pyramid object
-    // note that we cannot do any of the initialization that requires a GL context here
-    // we define the essential methods of the object - and then wait
-    //
-    // another stylistic choice: I have chosen to make many of my "private" variables
-    // fields of this object, rather than local variables in this scope (so they
-    // are easily available by closure).
     var ground = {
-        // first I will give this the required object stuff for it's interface
-        // note that the init and draw functions can refer to the fields I define
-        // below
         name: "Ground Plane",
-        // the two workhorse functions - init and draw
-        // init will be called when there is a GL context
-        // this code gets really bulky since I am doing it all in place
         init: function (drawingState) {
-            // an abbreviation...
             var gl = drawingState.gl;
             if (!shaderProgram) {
                 shaderProgram = twgl.createProgramInfo(gl, ["ground-vs", "ground-fs"]);
             }
             var arrays = {
-                vpos: { numComponents: 3, data: vertexPos },
+                vpos: {
+                    numComponents: 3,
+                    data: vertexPos
+                },
                 vtex: {
                     numComponents: 2,
                     data: texPos
                 }
-
             };
             buffers = twgl.createBufferInfoFromArrays(gl, arrays);
-            window.texture = gl.createTexture();
-            gl.bindTexture(gl.TEXTURE_2D, texture);
-            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
-            window.image = new Image();
-            image.onload = LoadTexture;
-            image.crossOrigin = "anonymous";
-            image.src = "https://photos.google.com/search/_tra_/photo/AF1QipPsigOo-bOYQK9Cb25SnT_zHxpDFYi8hmAxYcIn";
+            
+            //gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
 
+            var image1 = new Image();
+            image1.crossOrigin = "anonymous";
+            image1.src = "https://lh3.googleusercontent.com/MKfii4FAj0r_nYjjyc5kM6U3NYnRKMGMNdhWUxTp3P4AAZxEQ7KfWFf_hEw7xXbyMpnACZkrg7V0PBc6LkezfqOy982P084rCblEq1F77Pc7b6Uy-GJqR-MPjU1c3pZ-NM_cLBdNKzhDj7MKJn_nRQgEmpSImHUmqRuCWX-XLulk7xxUJRVjjMfeaU_1wlt3a73uxq1e1-cOUKJDzT9wMLV7h1irZKlYfzdl2CZI2MRXNEJx4KnLFeGnE48wfAcxSJnr9MZkEMHh5EWIR2XDzNDROU8GV0AR-mM0EJoY0zKG33RAsEDikBiZcmN91mjkK4xpFxEqPxhHr8NlZrdeCtmM5kl4mKVUawFaUHXpvovMKLIYH5X2km_JQT2JjMhdtxuEWNpH4u44OWud8Vcv7wz2o-vSfTPklTyq9CLoo-SikI0Q8HqF--LpLFGNfI2gT0YY-6pat9vWB7bD7G4i7L5RNokS11DQajU5eqIwfuQ3ntjce2ZLIavpIC2VQtmUImIDl4qF9DISRTJbuLS5lTSyX3h-T2FZ27EUqZeaaG-ENbTKtFVH3AtU5lcclkzZB9s=s256-no";
+            image1.onload = function () {
+                var texture1 = gl.createTexture();
+                gl.activeTexture(gl.TEXTURE0);
+                gl.bindTexture(gl.TEXTURE_2D, texture1);
+                gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image1);
+                gl.generateMipmap(gl.TEXTURE_2D);
+                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+            }
         },
         draw: function (drawingState) {
-            window.gl = drawingState.gl;
+            var gl = drawingState.gl;
             gl.useProgram(shaderProgram.program);
             twgl.setBuffersAndAttributes(gl, shaderProgram, buffers);
-            twgl.setUniforms(shaderProgram, {
+            twgl.setUniforms(shaderProgram,
+                {
                 view: drawingState.view,
                 proj: drawingState.proj
-            });
-            shaderProgram.program.texSampler = gl.getUniformLocation(shaderProgram.program, "texSampler");
-            gl.uniform1i(shaderProgram.program.texSampler, 0);
+                }
+            );
+            shaderProgram.program.texSampler1 = gl.getUniformLocation(shaderProgram.program, "texSampler1");
+            gl.uniform1i(shaderProgram.program.texSampler1, 0);
             twgl.drawBufferInfo(gl, gl.TRIANGLES, buffers);
         },
         center: function (drawingState) {
             return [0, 0, 0];
         }
-
-
-
     };
 
-    function LoadTexture() {
-        gl.bindTexture(gl.TEXTURE_2D, texture);
-        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
-        // Option 1 : Use mipmap, select interpolation mode
-        gl.generateMipmap(gl.TEXTURE_2D);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
-    }
 
-
-    // now that we've defined the object, add it to the global objects list
     grobjects.push(ground);
 })();

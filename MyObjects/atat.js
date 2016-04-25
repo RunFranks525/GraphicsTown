@@ -19,7 +19,7 @@ var AtAt = undefined;
         var gl = drawingState.gl;
         // create the shaders once - for all cubes
         if (!shaderProgram) {
-            shaderProgram = twgl.createProgramInfo(gl, ["cube-vs", "cube-fs"]);
+            shaderProgram = twgl.createProgramInfo(gl, ["atat-vs", "atat-fs"]);
         }
         if (!buffers) {
             var arrays = {
@@ -271,19 +271,26 @@ var AtAt = undefined;
 
                     ]
                 },
-                //vTex: {
-                //    numComponents: 3,
-                //    data:
-                //        [
-                //            0, 0,
-                //            1, 0,
-                //            1, 1,
-                //            0, 1
-                //        ]
-                //}
-
+                vTex: {
+                    numComponents: 3,
+                    data:
+                        [
+                            0, 0,
+                            1, 0,
+                            1, 1,
+                            0, 1
+                        ]
+                }
             };
             buffers = twgl.createBufferInfoFromArrays(drawingState.gl, arrays);
+
+            //window.texture = gl.createTexture();
+            //gl.bindTexture(gl.TEXTURE_2D, texture);
+            //gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+            //window.image = new Image();
+            //image.onload = LoadTexture;
+            //image.crossOrigin = "anonymous";
+            //image.src = "/Images/snow_texture1551.jpg";
         }
 
     };
@@ -298,15 +305,6 @@ var AtAt = undefined;
         //var normalMatrix = twgl.m4.transpose(twgl.m4.inverse(modelM));
         // the drawing code is straightforward - since twgl deals with the GL stuff for us
         window.gl = drawingState.gl;
-        //window.texture = gl.createTexture();
-        //gl.bindTexture(gl.TEXTURE_2D, texture);
-        //gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
-        //window.image = new Image();
-        //image.onload = loadTexture;
-        //image.crossOrigin = "anonymous";
-        //image.src = "https://lh3.googleusercontent.com/ZZPdzvlpK9r_Df9C3M7j1rNRi7hhHRvPhlklJ3lfi5jk86Jd1s0Y5wcQ1QgbVaAP5Q=w300";
-
-
         gl.useProgram(shaderProgram.program);
         twgl.setBuffersAndAttributes(gl, shaderProgram, buffers);
         twgl.setUniforms(shaderProgram,
@@ -316,10 +314,9 @@ var AtAt = undefined;
                 lightdir: drawingState.sunDirection,
                 cubecolor: this.color,
                 model: modelM,
-                normalMatrix: normalMatrix
-                
+                normalMatrix: normalMatrix            
             });
-        //shaderProgram.program.texSampler = gl.getUniformLocation(shaderProgram.program, "texSampler");
+       // shaderProgram.program.texSampler = gl.getUniformLocation(shaderProgram.program, "texSampler");
         //gl.uniform1i(shaderProgram.program.texSampler, 0);
         twgl.drawBufferInfo(gl, gl.TRIANGLES, buffers);
     };
@@ -336,15 +333,11 @@ var AtAt = undefined;
         }
     }
 
-    function loadTexture() {
+    function LoadTexture() {
         gl.bindTexture(gl.TEXTURE_2D, texture);
         gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
-        //gl.generateMipmap(gl.TEXTURE_2D);
+        gl.generateMipmap(gl.TEXTURE_2D);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
-       // gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-       // gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-       // gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-       // gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
     }
 
 })();

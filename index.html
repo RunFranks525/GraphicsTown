@@ -10,35 +10,26 @@
 <body>
     <h1>The Battle of Hoth</h1>
     <h3>Star Wars Episode 5: The Empire Strikes Back</h3>
-<!-- load this stuff first -->
+
 <script src="Libraries/twgl-full.js"></script>
 <script src="Libraries/panel.js"></script>
 <script src="Libraries/arcball.js"></script>
+
 <script src="grobject.js"></script>
 <script src="ExampleObjects/ground.js"></script>
 
-<!-- This is where we load the objects for the world -->
+<!-- This is where we load the objects for the world 
 <!--<script src="ExampleObjects/simplest.js"></script>
 <script src="ExampleObjects/texturedplane.js"></script>-->
-<script src="ExampleObjects/cube.js"></script>
 <!--<script src="MyObjects/SnowSpeeder.js"></script>
 <script src="ModelLoader.js"></script>-->
 <script src="MyObjects/speeder.js"></script>
 <script src="MyObjects/RebelBase.js"></script>
 <script src="MyObjects/atat.js"></script>
 <script src="MyObjects/Mountain.js"></script>
-
-<!-- I am adding the helicopter -->
-<!--<script src="Helicopter/helicopter.js"></script>
-
-<!-- This gets loaded LAST (actually, it probably doesn't have to) -->
 <script src="graphicstown.js"></script>
+<script src="MyObjects/wall.js"></script>
 </body>
-
-<!-- all of the shaders get stuck here in the HTML because
-  -- that's the only way I know to load them without either
-  -- sticking them in JavaScript strings, or using a web server
-  -->
 
 <script id="cube-vs" type="notjs">
 // specialized shader for the simple cube
@@ -55,6 +46,7 @@
     varying vec3 outColor;
     varying vec3 fNormal;
 
+
     uniform mat3 normalMatrix;
     uniform mat4 view;
     uniform mat4 proj;
@@ -65,6 +57,7 @@
     varying vec3 outLightDir;
     varying vec3 fPos;
     varying vec2 fTexCoord;
+
 
     void main(void) {
         gl_Position = proj * view * model * vec4(vpos, 1.0);
@@ -102,6 +95,58 @@
     }
 </script>
 
+<script id="atat-vs" type="not-js">
+    precision highp float;
+
+    attribute vec3 vpos;
+    attribute vec3 vnormal;
+    varying vec3 outColor;
+    varying vec3 fNormal;
+   // varying vec2 fTexCoord;
+    //attribute vec2 vTex;
+
+    uniform mat3 normalMatrix;
+    uniform mat4 view;
+    uniform mat4 proj;
+    uniform mat4 model;
+
+    uniform vec3 lightdir;
+    uniform vec3 cubecolor;
+    varying vec3 outLightDir;
+    varying vec3 fPos;
+
+    void main(void) {
+        gl_Position = proj * view * model * vec4(vpos, 1.0);
+        fNormal = normalize(normalMatrix * vnormal);
+        vec4 normal = normalize(model * vec4(vnormal,0.0));
+        fPos =(view* model* vec4(vpos.xyz,1.0)).xyz;
+        float diffuse = 0.5 + .5*dot(normal, vec4(lightdir,0.0));
+        outLightDir = lightdir;
+        outColor = cubecolor * diffuse;
+       // fTexCoord = vTex;
+    }
+</script>
+<script id="atat-fs" type="not-js">
+    precision highp float;
+    varying vec3 outColor;
+    varying vec3 outLightDir;
+    varying vec3 fPos;
+    varying vec3 fNormal;
+    const float specular_coeff  = 1.0;
+    const float specular_exp    = 12.0;
+    const vec3  light_color     = vec3(1.0, 1.0, 1.0);
+    void main(void) {
+        vec3 l = normalize(outLightDir);
+        vec3 n = normalize(fNormal);
+        vec3 e = normalize(-fPos);
+        vec3 h = normalize (e+l);
+
+        //vec4 texColor = texture2D(texSampler, fTexCoord);
+        vec3 specular_color = specular_coeff * pow(max(0.0,dot(n,h)),specular_exp) * light_color;
+        gl_FragColor = vec4(outColor + specular_color, 1.0);
+    }
+</script>
+
 <script id="ground-vs" type="not-js">
     precision highp float;
 
@@ -124,39 +169,145 @@
     precision highp float;
     varying vec3 outPos;
     varying vec2 fTexCoord;
-    uniform sampler2D texSampler;
+    uniform sampler2D texSampler1;
+
     void main(void) {
-        vec4 texColor = texture2D(texSampler, fTexCoord);
+        vec4 texColor = texture2D(texSampler1, fTexCoord);
         gl_FragColor = vec4(texColor);
     }
 </script>
 
-<script id="cubeTest-vs" type="not-js">
+
+<script id="wall-vs" type="not-js">
+    // specialized shader for the simple cube
+    // we assume that the model matrix works as the normal
+    //      matrix - this only is try if the model matrix
+    //      it a rotate/translate
+    //      (uniform scale is OK since we re-normalize)
+    // color is solid
+    // simple lighting
     precision highp float;
 
     attribute vec3 vpos;
-    attribute vec2 vTex;
-    varying vec3 outPos;
+    attribute vec3 vnormal;
+    varying vec3 outColor;
+    varying vec3 fNormal;
     varying vec2 fTexCoord;
+    attribute vec2 vTex;
 
+
+    uniform mat3 normalMatrix;
     uniform mat4 view;
     uniform mat4 proj;
+    uniform mat4 model;
+
+    uniform vec3 lightdir;
+    uniform vec3 cubecolor;
+    varying vec3 outLightDir;
+    varying vec3 fPos;
 
     void main(void) {
-        gl_Position = proj * view * vec4(vpos, 1.0);
-        outPos = vpos;
+    gl_Position = proj * view * model * vec4(vpos, 1.0);
+    fNormal = normalize(normalMatrix * vnormal);
+    vec4 normal = normalize(model * vec4(vnormal,0.0));
+    fPos =(view* model* vec4(vpos.xyz,1.0)).xyz;
+    float diffuse = 0.5 + .5*dot(normal, vec4(lightdir,0.0));
+    outLightDir = lightdir;
+    outColor = cubecolor * diffuse;
+    fTexCoord = vTex;
+    }
+</script>
+<script id="wall-fs" type="not-js">
+    // simple shader that does vertex coloring
+    //  (e.g. the vertex shader figures the lighting
+    // note this is used for more than just the cube
+    precision highp float;
+    varying vec3 outColor;
+    varying vec3 outLightDir;
+    varying vec3 fPos;
+    varying vec3 fNormal;
+    const float specular_coeff  = 1.0;
+    const float specular_exp    = 12.0;
+    const vec3  light_color     = vec3(1.0, 1.0, 1.0);
+    varying vec2 fTexCoord;
+    uniform sampler2D texSampler2;
+
+    void main(void) {
+    vec3 l = normalize(outLightDir);
+    vec3 n = normalize(fNormal);
+    vec3 e = normalize(-fPos);
+    vec3 h = normalize (e+l);
+
+    vec4 texColor = texture2D(texSampler2, fTexCoord);
+    vec3 specular_color = specular_coeff * pow(max(0.0,dot(n,h)),specular_exp) * light_color;
+    gl_FragColor = vec4(texColor);
+    // + vec4(outColor + specular_color, 1.0);
+    }
+</script>
+
+<script id="mountain-vs" type="notjs">
+    // specialized shader for the simple cube
+    // we assume that the model matrix works as the normal
+    //      matrix - this only is try if the model matrix
+    //      it a rotate/translate
+    //      (uniform scale is OK since we re-normalize)
+    // color is solid
+    // simple lighting
+    precision highp float;
+
+    attribute vec3 vpos;
+    attribute vec3 vnormal;
+    varying vec3 outColor;
+    varying vec3 fNormal;
+    varying vec2 fTexCoord;
+    attribute vec2 vTex;
+
+
+    uniform mat3 normalMatrix;
+    uniform mat4 view;
+    uniform mat4 proj;
+    uniform mat4 model;
+
+    uniform vec3 lightdir;
+    uniform vec3 cubecolor;
+    varying vec3 outLightDir;
+    varying vec3 fPos;
+
+    void main(void) {
+        gl_Position = proj * view * model * vec4(vpos, 1.0);
+        fNormal = normalize(normalMatrix * vnormal);
+        vec4 normal = normalize(model * vec4(vnormal,0.0));
+        fPos =(view* model* vec4(vpos.xyz,1.0)).xyz;
+        float diffuse = 0.5 + .5*dot(normal, vec4(lightdir,0.0));
+        outLightDir = lightdir;
+        outColor = cubecolor * diffuse;
         fTexCoord = vTex;
     }
 </script>
-<script id="cubeTest-fs" type="not-js">
+<script id="mountain-fs" type="notjs">
+    // simple shader that does vertex coloring
+    //  (e.g. the vertex shader figures the lighting
     // note this is used for more than just the cube
     precision highp float;
-    varying vec3 outPos;
+    varying vec3 outColor;
+    varying vec3 outLightDir;
+    varying vec3 fPos;
+    varying vec3 fNormal;
+    const float specular_coeff = 1.0;
+    const float specular_exp = 12.0;
+    const vec3  light_color = vec3(0.0, 1.0, 1.0);
     varying vec2 fTexCoord;
-    uniform sampler2D texSampler;
+    uniform sampler2D texSampler2;
+
     void main(void) {
-        vec4 texColor = texture2D(texSampler, fTexCoord);
-        gl_FragColor = vec4(texColor);
+        vec3 l = normalize(outLightDir);
+        vec3 n = normalize(fNormal);
+        vec3 e = normalize(-fPos);
+        vec3 h = normalize (e+l);
+
+        vec4 texColor = texture2D(texSampler2, fTexCoord);
+        vec3 specular_color = specular_coeff * pow(max(0.0,dot(n,h)),specular_exp) * light_color;
+        gl_FragColor = vec4(texColor) + vec4(outColor + specular_color, 1.0);
     }
 </script>
 
