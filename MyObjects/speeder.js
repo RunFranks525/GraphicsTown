@@ -166,12 +166,12 @@ var speeder = undefined;
             var mTrans = twgl.m4.translation(initialCurve(drawingState.realtime * 0.0008));
             var mRot = twgl.m4.lookAt([0, 0, 0], initialTangent(drawingState.realtime * 0.0007), [0, 1, 0]);
         } else {
-            var mTrans = twgl.m4.translation(curveValue(drawingState.realtime * 0.0008));
+            var mTrans = twgl.m4.translation(curveValue(drawingState.realtime * 0.0008, this.position));
             var mRot = twgl.m4.lookAt([0, 0, 0], curveTangent(drawingState.realtime * 0.00072), [0, 1, 0]);
         } 
 
         var modelM = twgl.m4.multiply(mRot, mTrans);
-        modelM = twgl.m4.multiply(mScale, modelM);
+        modelM = twgl.m4.multiply(modelM, mScale);
         var normalMatrix = modelM;
         var gl = drawingState.gl;
         gl.useProgram(shaderProgram.program);
@@ -214,8 +214,8 @@ var speeder = undefined;
         return result;
     }
 
-    function curveValue(time) {
-        var result = [Math.cos(Math.PI * -time) * 3 + 1, 3, Math.sin(Math.PI *- time) * 2];
+    function curveValue(time, position) {
+        var result = [Math.cos(Math.PI * -time) * 3, 4, Math.sin(Math.PI * -time) * 2];
         return result;
     }
 
