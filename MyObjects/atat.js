@@ -297,10 +297,21 @@ var AtAt = undefined;
     AtAt.prototype.draw = function (drawingState) {
         // we make a model matrix to place the RebelBase in the world
         //advance(this, drawingState);
-        
-        var modelM = twgl.m4.scaling([this.size, this.size, this.size]);
-        modelM = twgl.m4.rotationY(Math.PI / 2);
-        twgl.m4.setTranslation(modelM, this.position, modelM);
+        var mScale = twgl.m4.scaling([this.size, this.size, this.size]);
+        if(drawingState.realtime < 25000) {
+            var mTrans = twgl.m4.translation(curveValue(drawingState.realtime * 0.00008, this.position));
+            var mRot = twgl.m4.lookAt([0, 0, 0], curveTangent(drawingState.realtime * 0.00072), [0, 1, 0]);
+        } else {
+            var mTrans = twgl.m4.translation(this.position);
+            var mRot = twgl.m4.lookAt([0, 0, 0], curveTangent(drawingState.realtime * 0.00072), [0, 1, 0]);
+        }
+
+        var modelM = twgl.m4.multiply(mRot, mTrans);
+        modelM = twgl.m4.multiply(modelM, mScale);
+
+        //var modelM = twgl.m4.scaling([this.size, this.size, this.size]);
+        ///delM = twgl.m4.rotationY(Math.PI / 2);
+        //gl.m4.setTranslation(modelM, this.position, modelM);
         var normalMatrix = [1, 1, 0, 0, 1, 1, 1, 0, 1];
         //var normalMatrix = twgl.m4.transpose(twgl.m4.inverse(modelM));
         // the drawing code is straightforward - since twgl deals with the GL stuff for us
@@ -314,9 +325,9 @@ var AtAt = undefined;
                 lightdir: drawingState.sunDirection,
                 cubecolor: this.color,
                 model: modelM,
-                normalMatrix: normalMatrix            
+                normalMatrix: normalMatrix
             });
-       // shaderProgram.program.texSampler = gl.getUniformLocation(shaderProgram.program, "texSampler");
+        // shaderProgram.program.texSampler = gl.getUniformLocation(shaderProgram.program, "texSampler");
         //gl.uniform1i(shaderProgram.program.texSampler, 0);
         twgl.drawBufferInfo(gl, gl.TRIANGLES, buffers);
     };
@@ -324,13 +335,52 @@ var AtAt = undefined;
         return this.position;
     }
 
-    var movespeed = 3 / 1000;
-    function advance(atat, drawingState) {
-        var time = -1* (Number(drawingState.realtime));
-        atat.position[2] = time * movespeed;
-        if (atat.position[2] < -0.5) {
-            atat.position[2] = 0;
-        }
+    function initialCurve(t) {
+        var p0 = [0, 0, -5];
+        var p1 = [-1, 4, -3];
+        var p2 = [-1, 4, -3];
+        var p3 = [-1, 3, -2];
+
+        var b0 = (1 - t) * (1 - t) * (1 - t);
+        var b1 = 3 * t * (1 - t) * (1 - t);
+        var b2 = 3 * t * t * (1 - t);
+        var b3 = t * t * t;
+
+
+        var result = [p0[0] * b0 + p1[0] * b1 + p2[0] * b2 + p3[0] * b3,
+                      p0[1] * b0 + p1[1] * b1 + p2[1] * b2 + p3[1] * b3,
+                      p0[2] * b0 + p1[2] * b1 + p2[2] * b2 + p3[2] * b3];
+        return result;
+    }
+
+    function initialTangent(time) {
+        var result = [-1, 0, 0];
+        return result;
+    }
+
+    function curveValue(t, position) {
+        
+        var p0 = [-position[0], 2, 5];
+        var p1 = [-position[0], 2, 3];
+        var p2 = [-position[0], 2, 3];
+        var p3 = [-position[0], 2, 2];
+
+        var b0 = (1 - t) * (1 - t) * (1 - t);
+        var b1 = 3 * t * (1 - t) * (1 - t);
+        var b2 = 3 * t * t * (1 - t);
+        var b3 = t * t * t;
+
+
+        var result = [p0[0] * b0 + p1[0] * b1 + p2[0] * b2 + p3[0] * b3,
+                      p0[1] * b0 + p1[1] * b1 + p2[1] * b2 + p3[1] * b3,
+                      p0[2] * b0 + p1[2] * b1 + p2[2] * b2 + p3[2] * b3];
+        return result;
+    }
+
+    
+    function curveTangent(t) {
+        var result = [-1,0,0];
+        return result;
     }
 
     function LoadTexture() {

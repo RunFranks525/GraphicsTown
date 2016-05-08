@@ -1,6 +1,6 @@
 var grobjects = grobjects || [];
 
-var groundPlaneSize = groundPlaneSize || 5;
+var groundPlaneSize = groundPlaneSize || 10;
 
 
 (function () {
@@ -52,7 +52,7 @@ var groundPlaneSize = groundPlaneSize || 5;
 
             var image1 = new Image();
             image1.crossOrigin = "anonymous";
-            image1.src = "https://lh3.googleusercontent.com/MKfii4FAj0r_nYjjyc5kM6U3NYnRKMGMNdhWUxTp3P4AAZxEQ7KfWFf_hEw7xXbyMpnACZkrg7V0PBc6LkezfqOy982P084rCblEq1F77Pc7b6Uy-GJqR-MPjU1c3pZ-NM_cLBdNKzhDj7MKJn_nRQgEmpSImHUmqRuCWX-XLulk7xxUJRVjjMfeaU_1wlt3a73uxq1e1-cOUKJDzT9wMLV7h1irZKlYfzdl2CZI2MRXNEJx4KnLFeGnE48wfAcxSJnr9MZkEMHh5EWIR2XDzNDROU8GV0AR-mM0EJoY0zKG33RAsEDikBiZcmN91mjkK4xpFxEqPxhHr8NlZrdeCtmM5kl4mKVUawFaUHXpvovMKLIYH5X2km_JQT2JjMhdtxuEWNpH4u44OWud8Vcv7wz2o-vSfTPklTyq9CLoo-SikI0Q8HqF--LpLFGNfI2gT0YY-6pat9vWB7bD7G4i7L5RNokS11DQajU5eqIwfuQ3ntjce2ZLIavpIC2VQtmUImIDl4qF9DISRTJbuLS5lTSyX3h-T2FZ27EUqZeaaG-ENbTKtFVH3AtU5lcclkzZB9s=s256-no";
+            image1.src = "https://lh3.googleusercontent.com/Zv4eap6ouXkMOc_yBzoCS8ekU0CHSDn-J-Zr1lqujRLKO0vkYsydXKDgCYNAN85PGN6Mi8QcLL3Y1b-J4TdUSDUGUsyFJ4Gdi744sSEqpmRPjHGgx16FH_T2I2Jsaklgy2JaoJh34B9B0H8ez0NSz5Wraz0y2GewYSobvy_hzU-nxIuMnjYTXboQgZubfRoeT8fazSvf6e1hKTgeKxazzyoRCRwm-V-PKB9jvkSA3c7tcWEBfcik_FFd-yPVrqSGBEOH5sxltHgfhrIc89qRgRJIBYQusyrXfzfTB-ShqC9lZHH7zOfYP-tnQuc6uV-3qVoNW2gSu1DqHqQcpwV9eewo7aeCUPjAcj4omEOZx0TMnayf5OTNSsGgU4qEl8Wp-5SWIEDmoHjtQPbrcBx3tUn2gAv1KgHYgH-gz7rY9yjkkRvXne1Cya8ONvHH0nwM4MDxs1nea7831HOXYShnPQEcwCIvVfgVK_wJ5HHM02gEiDHu9V7A2Wj6nrgD_4DB_E6Izx9VSQj_f27Ss1FeSqCmOahSmKmQsU8HIGvJlPR1SaD_62UzIHZ_RFlFy5JTQ_QiHtaN8jwSj428snrkQTKJAkuumQ=s256-no";
             image1.onload = function () {
                 var texture1 = gl.createTexture();
                 gl.activeTexture(gl.TEXTURE0);

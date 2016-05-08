@@ -29,6 +29,8 @@
 <script src="MyObjects/Mountain.js"></script>
 <script src="graphicstown.js"></script>
 <script src="MyObjects/wall.js"></script>
+<script src="MyObjects/sky.js"></script>
+<!--<script src="MyObjects/atst.js"></script>-->
 </body>
 
 <script id="cube-vs" type="notjs">
@@ -189,9 +191,7 @@
     precision highp float;
 
     attribute vec3 vpos;
-    attribute vec3 vnormal;
     varying vec3 outColor;
-    varying vec3 fNormal;
     varying vec2 fTexCoord;
     attribute vec2 vTex;
 
@@ -201,19 +201,11 @@
     uniform mat4 proj;
     uniform mat4 model;
 
-    uniform vec3 lightdir;
-    uniform vec3 cubecolor;
-    varying vec3 outLightDir;
     varying vec3 fPos;
 
     void main(void) {
     gl_Position = proj * view * model * vec4(vpos, 1.0);
-    fNormal = normalize(normalMatrix * vnormal);
-    vec4 normal = normalize(model * vec4(vnormal,0.0));
     fPos =(view* model* vec4(vpos.xyz,1.0)).xyz;
-    float diffuse = 0.5 + .5*dot(normal, vec4(lightdir,0.0));
-    outLightDir = lightdir;
-    outColor = cubecolor * diffuse;
     fTexCoord = vTex;
     }
 </script>
@@ -222,10 +214,8 @@
     //  (e.g. the vertex shader figures the lighting
     // note this is used for more than just the cube
     precision highp float;
-    varying vec3 outColor;
-    varying vec3 outLightDir;
+
     varying vec3 fPos;
-    varying vec3 fNormal;
     const float specular_coeff  = 1.0;
     const float specular_exp    = 12.0;
     const vec3  light_color     = vec3(1.0, 1.0, 1.0);
@@ -233,15 +223,9 @@
     uniform sampler2D texSampler2;
 
     void main(void) {
-    vec3 l = normalize(outLightDir);
-    vec3 n = normalize(fNormal);
-    vec3 e = normalize(-fPos);
-    vec3 h = normalize (e+l);
 
     vec4 texColor = texture2D(texSampler2, fTexCoord);
-    vec3 specular_color = specular_coeff * pow(max(0.0,dot(n,h)),specular_exp) * light_color;
     gl_FragColor = vec4(texColor);
-    // + vec4(outColor + specular_color, 1.0);
     }
 </script>
 

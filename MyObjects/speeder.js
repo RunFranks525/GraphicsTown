@@ -152,8 +152,6 @@ var speeder = undefined;
                         1, 1, 0,
                         1, 1, 0,
                         1, 1, 0,
-
-
                     ]
                 }
 
@@ -163,44 +161,71 @@ var speeder = undefined;
 
     };
     speeder.prototype.draw = function (drawingState) {
-        // we make a model matrix to place the RebelBase in the world
-        advance(this, drawingState);
-        var modelM = twgl.m4.scaling([this.size, this.size, this.size]);
-        //console.log(this.orientation);
-        //modelM = twgl.m4.multiply(modelM, twgl.m4.axisRotation([1,0,0], this.orientation));
-        twgl.m4.setTranslation(modelM, this.position, modelM);
-        //var normalMatrix = [1, 1, 0, 0, 1, 1, 1, 0, 1];
+        var mScale = twgl.m4.scaling([this.size, this.size, this.size]);
+        if (drawingState.realtime < 1570) {
+            var mTrans = twgl.m4.translation(initialCurve(drawingState.realtime * 0.0008));
+            var mRot = twgl.m4.lookAt([0, 0, 0], initialTangent(drawingState.realtime * 0.0007), [0, 1, 0]);
+        } else {
+            var mTrans = twgl.m4.translation(curveValue(drawingState.realtime * 0.0008));
+            var mRot = twgl.m4.lookAt([0, 0, 0], curveTangent(drawingState.realtime * 0.00072), [0, 1, 0]);
+        } 
+
+        var modelM = twgl.m4.multiply(mRot, mTrans);
+        modelM = twgl.m4.multiply(mScale, modelM);
         var normalMatrix = modelM;
-        // the drawing code is straightforward - since twgl deals with the GL stuff for us
         var gl = drawingState.gl;
         gl.useProgram(shaderProgram.program);
         twgl.setBuffersAndAttributes(gl, shaderProgram, buffers);
         twgl.setUniforms(shaderProgram,
         {
-                view: drawingState.view,
-                proj: drawingState.proj,
-                lightdir: drawingState.sunDirection,
-                cubecolor: this.color,
-                model: modelM,
-                normalMatrix: normalMatrix
+            view: drawingState.view,
+            proj: drawingState.proj,
+            lightdir: drawingState.sunDirection,
+            cubecolor: this.color,
+            model: modelM,
+            normalMatrix: normalMatrix
         });
         twgl.drawBufferInfo(gl, gl.TRIANGLES, buffers);
     };
     speeder.prototype.center = function (drawingState) {
         return this.position;
     }
-    var flyingSpeed = 3 / 1000;
-    
-    function advance(speeder, drawingState) {
-        var time = Number(drawingState.realtime);
-        speeder.position[0] = Math.sin(time * flyingSpeed) * 3;
-        speeder.position[2] = Math.cos(time * flyingSpeed) * 2;
+
+    function initialCurve(t) {
+        var p0 = [0, 0, -5];
+        var p1 = [-1, 4, -3];
+        var p2 = [-1, 4, -3];
+        var p3 = [-1, 3, -2];
+
+        var b0 = (1 - t) * (1 - t) * (1 - t);
+        var b1 = 3 * t * (1 - t) * (1 - t);
+        var b2 = 3 * t * t * (1 - t);
+        var b3 = t * t * t;
+
+
+        var result = [p0[0] * b0 + p1[0] * b1 + p2[0] * b2 + p3[0] * b3,
+                      p0[1] * b0 + p1[1] * b1 + p2[1] * b2 + p3[1] * b3,
+                      p0[2] * b0 + p1[2] * b1 + p2[2] * b2 + p3[2] * b3];
+        return result;
+    }
+
+    function initialTangent(time) {
+        var result = [-3 * Math.sin(Math.PI * time), 0, 0];
+        return result;
+    }
+
+    function curveValue(time) {
+        var result = [Math.cos(Math.PI * -time) * 3 + 1, 3, Math.sin(Math.PI *- time) * 2];
+        return result;
+    }
+
+    function curveTangent(t) {
+        var result = [-3 * Math.PI * Math.sin(Math.PI * t), 0, -2 * Math.PI * Math.cos(Math.PI * t)];
+        return result;
     }
 
 })();
 
-grobjects.push(new speeder("snowSpeeder", [1,1, 3], 0.5, [1.0, 1.0, 1.0]));
-
-//grobjects.push(new speeder("snowSpeeder", [2, 3, 3], 0.5, [1.0, 1.0, 1.0]));
+grobjects.push(new speeder("snowSpeeder", [0, 0, 0], 0.5, [1.0, 1.0, 1.0]));
 
 

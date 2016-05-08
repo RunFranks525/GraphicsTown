@@ -259,5 +259,5 @@ var RebelBase = undefined;
 
 })();
 
-grobjects.push(new RebelBase("rebelBase", [0, 0.5, -4], 1, [0.92, 0.64, 0.51]))
+grobjects.push(new RebelBase("rebelBase", [0, 0.5, -4], 2, [0.92, 0.64, 0.51]))
 

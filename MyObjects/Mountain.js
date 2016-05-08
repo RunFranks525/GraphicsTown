@@ -84,7 +84,7 @@ var mountain = undefined;
 
             var image2 = new Image();
             image2.crossOrigin = "anonymous";
-            image2.src = "https://lh3.googleusercontent.com/I-9WQ3GxntdSwcNvUh7lpGTWBG_Ow_Vk9r5aLrelpFrNKhLp5ulLoVN7zjUU3J42AMZiFeF5n4B2nXbxSuLtFcaq6_DKuOHGo4v8Vp9H-XmuP_flZS1Hb3_nTKbWZqpijzvp1vSTlbZ7wqwKkXVGwFEYwIJga1lJ_aiWjCLueHKlmyQ3PlmLkWPwm5bDtqmntqrTp-cd7oavS5Gts5mV_-uphOn8vsLxhMbwcbUVbgBSdL4bELqpeF9CpI3zqp8VC_2jam3Ihe3JKlT_IHIFobJ6Hel70DZgJWV7jfHjxzPG3Oc7BvFOMW72jSP3Q-qrSno8jxEGZbqVwzf3YQwbOe489L-232h7aYYkBSdnPjbKcFdyE6e67li-3d0hLzXRwfFjt_nht_LHf2OhoumJQMmVkEyHJFr4hmoiTg8sniMe7s8NFuNV9aUN-UKrtsTrdvin6gu6LU4pEmLSuTyZBCzLs7dzyl_J3NFS4ZmZ-w_Vz55kqqUnvwbbDSvCa0xj-KCGNUWIQ2Wz7-pmlffSFrgeP-gmNu9OCclWqsCh10d_8o0vd76JlFQUBHlSu5RHuZw=s256-no";
+            image2.src = "https://lh3.googleusercontent.com/e0TCSjYRByJkv2fbOQSBrfUHLy6fdzgEVSr3P-fa4UVNQ73RYpUC7PPi3NnYHT7QvRSVb8J4yhusvYAjAJJCIlsy42j_9PUfsBjzPYhLsLWF4gdPatQ_Cd6LK1x-eAD2JAky5eyYbkguc-OGeKiWM0M-y9dnYQwaHsiGGJUbTfaWWycC5mJiQCo6VT0M0nHOulr-pWdouKG8PK0Swkz7w7z5rs46jaRAi0qYMqyj0A_QbIKiGFQYzGCThDEElHoK4YvYSBS8kMpr5wstiN17Jq-yrruysi-EhVFVq8W0SMGx-pv2DA87LL-2Wp1A7B3YfF4R7KMzzlc35YDACjF30hcBLrqAuF7Ts_waxa19Mgu1-RbTaO3N2DTwsT1CSLUPuVrepUHsecF4pxSOJ0x8lCC2g9WPxGvXuKATzD4kRQfRJHt1nqwwOnh5oKNrpCUdLyx1EKaFBOO-Q3J-aZTm4KWe01sW4wcF4RPx6UVZDn132dDZCaLP9-R3MWM3DPelQLY-1UVpl4n365JAHKfKoAl3ZVnHDCJlBublvIiOwYIXojgvftI71c_ecTXzFRUr1_sgrhYvX3BjwEqHI5sD4tN9-x9aOg=s256-no";
             image2.onload = function () {
                 gl.activeTexture(gl.TEXTURE1);
                 gl.bindTexture(gl.TEXTURE_2D, texture2);
@@ -121,8 +121,11 @@ var mountain = undefined;
 
 })();
 
-grobjects.push(new mountain("mountain1", [4, 0, -4], 2, [0.25,0.25,0.25]));
-grobjects.push(new mountain("mountain2", [3, 0, -4], 1.5, [0.25, 0.25, 0.25]));
-grobjects.push(new mountain("mountain3", [-3.5, 0, -2], 2.5, [0.25, 0.25, 0.25]));
+grobjects.push(new mountain("mountain1", [6, 0, -6], 5, [0.25,0.25,0.25]));
+grobjects.push(new mountain("mountain2", [3, 0, -6], 3, [0.25, 0.25, 0.25]));
+grobjects.push(new mountain("mountain3", [-6, 0, -5], 4, [0.25, 0.25, 0.25]));
+grobjects.push(new mountain("mountain3", [-4, 0, -6], 5, [0.25, 0.25, 0.25]));
+grobjects.push(new mountain("mountain3", [-6, 0, -3], 2, [0.25, 0.25, 0.25]));
+
 
 

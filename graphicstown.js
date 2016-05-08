@@ -38,8 +38,8 @@ window.onload = function() {
 
     // set up the canvas and context
     var canvas = document.createElement("canvas");
-    canvas.setAttribute("width",600);
-    canvas.setAttribute("height",600);
+    canvas.setAttribute("width",800);
+    canvas.setAttribute("height",700);
     document.body.appendChild(canvas);
 
     // make a place to put the drawing controls - a div
@@ -150,7 +150,7 @@ window.onload = function() {
         // implement the camera UI
         if (uiMode.value == "ArcBall") {
             viewM = arcball.getMatrix();
-            twgl.m4.setTranslation(viewM, [0, 0, -10], viewM);
+            twgl.m4.setTranslation(viewM, [0, -4, -9], viewM);
         } else if (uiMode.value == "Drive") {
             if (keysdown[65]) { driveTheta += .02; }
             if (keysdown[68]) { driveTheta -= .02; }
